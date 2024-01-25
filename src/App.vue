@@ -1,11 +1,19 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import { useTodoStore } from './stores/todo'
 import { storeToRefs } from 'pinia'
 
+const task = ref('')
+
 const todoStore = useTodoStore()
-const { completedTodoCount, incompleteTodoCount } = storeToRefs(todoStore)
+const { todoCount, completedTodoCount, incompleteTodoCount } = storeToRefs(todoStore)
+const { addTodo } = todoStore
+const addNewTodo = () => {
+  addTodo(task.value)
+  task.value = ''
+}
 </script>
 
 <template>
@@ -16,7 +24,12 @@ const { completedTodoCount, incompleteTodoCount } = storeToRefs(todoStore)
       <HelloWorld msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">全タスク</RouterLink>
+        <RouterLink to="/">
+          <div>
+            {{ todoCount }}
+          </div>
+          全タスク
+        </RouterLink>
         <RouterLink to="/incompleteTodos">
           <div>
             {{ incompleteTodoCount }}
@@ -30,6 +43,15 @@ const { completedTodoCount, incompleteTodoCount } = storeToRefs(todoStore)
           完了済みタスク
         </RouterLink>
       </nav>
+
+      <div class="input_wrap">
+        <div>
+          <label>
+            <input type="text" placeholder="タスク" v-model="task" />
+          </label>
+        </div>
+        <button @click="addNewTodo" :disabled="!task">追加</button>
+      </div>
     </div>
   </header>
 
@@ -96,6 +118,45 @@ nav a:first-of-type {
 
     padding: 1rem 0;
     margin-top: 1rem;
+  }
+}
+
+.input_wrap {
+  margin-top: 20px;
+  position: relative;
+  width: 100%;
+  display: flex;
+
+  input[type='text'] {
+    font: 15px/24px sans-serif;
+    box-sizing: border-box;
+    width: 100%;
+    padding: 0.3em;
+    transition: 0.3s;
+    letter-spacing: 1px;
+    color: #ababab;
+    border: none;
+    border-bottom: 2px solid #1b2538;
+    background: transparent;
+
+    &:focus {
+      border-bottom: 2px solid hsl(160, 100%, 37%);
+      outline: none;
+    }
+  }
+
+  button {
+    margin-left: 20px;
+    padding: 4px 14px;
+    background: hsl(160, 100%, 37%);
+    cursor: pointer;
+    border-radius: 6px;
+    border: none;
+
+    &:disabled {
+      background: #ababab;
+      cursor: default;
+    }
   }
 }
 </style>

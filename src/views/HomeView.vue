@@ -1,30 +1,29 @@
 <script setup lang="ts">
+import TaskItem from '@/components/TaskItem.vue'
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '@/stores/todo'
-import { ref } from 'vue'
-
-const task = ref('')
 
 const todoStore = useTodoStore()
 const { todos } = storeToRefs(todoStore)
-const { addTodo, toggleIsCompletedTodo } = todoStore
-
-const addNewTodo = () => {
-  addTodo(task.value)
-}
 </script>
 
 <template>
   <main>
-    <div>
-      <label>
-        タスク
-        <input type="text" v-model="task" />
-      </label>
-      <button @click="addNewTodo">追加</button>
-    </div>
-    <div v-for="todo in todos" :key="todo.id" @click="toggleIsCompletedTodo(todo.id)">
-      {{ todo.text }}
+    <div class="card__wrap">
+      <TaskItem
+        v-for="todo in todos"
+        :key="todo.id"
+        :id="todo.id"
+        :text="todo.text"
+        :is-completed="todo.isCompleted"
+      />
     </div>
   </main>
 </template>
+
+<style lang="scss" scope>
+.card__wrap {
+  display: grid;
+  row-gap: 20px;
+}
+</style>
