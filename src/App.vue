@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
-import { useTodoStore } from './stores/todo'
 import { storeToRefs } from 'pinia'
+import { RouterLink, RouterView } from 'vue-router'
+import HelloWorld from '@/components/HelloWorld.vue'
+import { useTodoStore } from '@/stores/todo'
 
 const task = ref('')
 
@@ -55,7 +55,9 @@ const addNewTodo = () => {
     </div>
   </header>
 
-  <RouterView />
+  <main>
+    <RouterView />
+  </main>
 </template>
 
 <style scoped lang="scss">
@@ -121,6 +123,10 @@ nav a:first-of-type {
   }
 }
 
+.card__wrap {
+  display: grid;
+  row-gap: 20px;
+}
 .input_wrap {
   margin-top: 20px;
   position: relative;

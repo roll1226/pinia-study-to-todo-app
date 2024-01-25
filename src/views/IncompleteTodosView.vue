@@ -1,21 +1,21 @@
 <script lang="ts" setup>
-import { useTodoStore } from '@/stores/todo'
+import TaskItem from '@/components/TaskItem.vue'
 import { storeToRefs } from 'pinia'
+import { useTodoStore } from '@/stores/todo'
 
 const todoStore = useTodoStore()
 const { todosFilteredIncomplete } = storeToRefs(todoStore)
-const { toggleIsCompletedTodo } = todoStore
 </script>
 
 <template>
-  <div>
-    <div
+  <div class="card__wrap">
+    <TaskItem
       v-for="todo in todosFilteredIncomplete"
       :key="todo.id"
-      @click="toggleIsCompletedTodo(todo.id)"
-    >
-      {{ todo.text }}
-    </div>
+      :id="todo.id"
+      :text="todo.text"
+      :is-completed="todo.isCompleted"
+    />
   </div>
 </template>
 
