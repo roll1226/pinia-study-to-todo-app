@@ -1,6 +1,11 @@
 <script setup lang="ts">
 import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
+import { useTodoStore } from './stores/todo'
+import { storeToRefs } from 'pinia'
+
+const todoStore = useTodoStore()
+const { completedTodoCount, incompleteTodoCount } = storeToRefs(todoStore)
 </script>
 
 <template>
@@ -11,8 +16,19 @@ import HelloWorld from './components/HelloWorld.vue'
       <HelloWorld msg="You did it!" />
 
       <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
+        <RouterLink to="/">全タスク</RouterLink>
+        <RouterLink to="/incompleteTodos">
+          <div>
+            {{ incompleteTodoCount }}
+          </div>
+          未完了タスク
+        </RouterLink>
+        <RouterLink to="/completedTodos">
+          <div>
+            {{ completedTodoCount }}
+          </div>
+          完了済みタスク
+        </RouterLink>
       </nav>
     </div>
   </header>
