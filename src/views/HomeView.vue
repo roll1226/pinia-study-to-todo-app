@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import TaskItem from '@/components/TaskItem.vue'
 import { storeToRefs } from 'pinia'
 import { useTodoStore } from '@/stores/todo'
+import TaskItem from '@/components/TaskItem.vue'
 
 const todoStore = useTodoStore()
 const { todos } = storeToRefs(todoStore)
